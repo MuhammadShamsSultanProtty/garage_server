@@ -20,6 +20,7 @@ async function run() {
         await client.connect();
         const database = client.db('garage_db');
         const appoinnmentCollection = database.collection('appoinments');
+        const usersCollections = database.collection('users');
 
 
         app.get('/appoinments', async (req, res) => {
@@ -41,18 +42,17 @@ async function run() {
             // console.log(result);
             res.json(result)
 
-        })
+        });
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            const result = await usersCollections.insertOne(user);
+            console.log(result);
+            res.json(result)
 
-        // console.log('database connected successfully!');
-        // const database = client.db('sample_mflix');
-        // const movies = database.collection('movies');
-        // Query for a movie that has the title 'Back to the Future'
-        // const query = { title: 'Back to the Future' };
-        // const movie = await movies.findOne(query);
-        // console.log(movie);
+
+        });
     } finally {
-        // Ensures that the client will close when you finish/error
-        // await client.close();
+
     }
 }
 
