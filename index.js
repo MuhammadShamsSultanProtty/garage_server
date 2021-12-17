@@ -22,13 +22,21 @@ async function run() {
         const appoinnmentCollection = database.collection('appoinments');
 
 
+        app.get('/appoinments', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email };
+            const cursor = appoinnmentCollection.find(query);
+            const appoinments = await cursor.toArray();
+            // console.log(result);
+            res.json(appoinments)
 
+        })
 
 
         app.post('/appoinments', async (req, res) => {
             const appoinment = req.body;
             const result = await appoinnmentCollection.insertOne(appoinment);
-            console.log(result);
+            // console.log(result);
             res.json(result)
 
         })
