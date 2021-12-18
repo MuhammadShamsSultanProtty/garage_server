@@ -42,13 +42,26 @@ async function run() {
             const result = await appoinnmentCollection.insertOne(appoinment);
             // console.log(result);
             res.json(result)
-
         });
+
         app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await usersCollections.insertOne(user);
             console.log(result);
             res.json(result)
+        });
+
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const user = await usersCollections.findOne(query);
+            let isAdmin = false;
+            if (user?.role === 'admin') {
+                isAdmin = true;
+
+            }
+            res.json({ admin: isAdmin });
+
         });
 
         app.put('/users', async (req, res) => {
