@@ -48,10 +48,20 @@ async function run() {
             const result = await usersCollections.insertOne(user);
             console.log(result);
             res.json(result)
-
-
         });
-    } finally {
+
+        app.put('/users', async (req, res) => {
+            const user = req.body;
+            const filter = { email: user.email };
+            const options = { upsert: true };
+            const updateDoc = { $set: user };
+            const result = await usersCollections.updateOne(filter, updateDoc, options);
+            res.json(result);
+        })
+
+    }
+
+    finally {
 
     }
 }
